@@ -3,6 +3,8 @@ package com.example.calculadora
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import net.objecthunter.exp4j.ExpressionBuilder
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         bt_seis.setOnClickListener{AcrescentarUmaExpressao("6", false)}
         bt_sete.setOnClickListener{AcrescentarUmaExpressao("7", false)}
         bt_oito.setOnClickListener{AcrescentarUmaExpressao("8", false)}
-        bt_nove.setOnClickListener{AcrescentarUmaExpressao("9   ", false)}
+        bt_nove.setOnClickListener{AcrescentarUmaExpressao("9", false)}
 
 //Operadores
         bt_soma.setOnClickListener{AcrescentarUmaExpressao("+",false)}
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         bt_divisao.setOnClickListener { AcrescentarUmaExpressao("/",false) }
         bt_ponto.setOnClickListener { AcrescentarUmaExpressao(". ",false) }
 
-        bt_ponto
+
 
         bt_limpar.setOnClickListener {
             txt_expressao.text= ""
@@ -43,6 +45,24 @@ class MainActivity : AppCompatActivity() {
                 txt_expressao.text = String.substring(0, String.length-1)
             }
             txt_resultado.text = ""
+        }
+
+        bt_igual.setOnClickListener {
+            try {
+                val  expressao = ExpressionBuilder(txt_expressao.text.toString()).build()
+
+                val resultado = expressao.evaluate()
+                val longResult = resultado.toLong()
+
+                if(resultado == longResult.toDouble()){
+                    txt_resultado.text = longResult.toString()
+                }else{
+                    txt_resultado.text = resultado.toString()
+                }
+
+            }catch (e: Exception){
+                
+            }
         }
 
 
